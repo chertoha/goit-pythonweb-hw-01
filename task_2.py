@@ -1,5 +1,12 @@
 from abc import ABC, abstractmethod
 from typing import List
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
 
 
 class Book:
@@ -33,12 +40,12 @@ class Library(LibraryInterface):
     def add_book(self, book: Book):
         self.__books.append(book)
 
-    def remove_book(self, title):
+    def remove_book(self, title: str):
         self.__books = [book for book in self.__books if book.title != title]
 
     def show_books(self):
         for book in self.__books:
-            print(book)
+            logging.info(book)
 
 
 class LibraryManager:
@@ -48,11 +55,11 @@ class LibraryManager:
     def add_book(self, title: str, author: str, year: str):
         book = Book(title, author, year)
         self.library.add_book(book)
-        print(f'Book "{title}" added.')
+        logging.info(f'Book "{title}" added.')
 
     def remove_book(self, title: str):
         self.library.remove_book(title)
-        print(f'Book "{title}" removed.')
+        logging.info(f'Book "{title}" removed.')
 
     def show_books(self):
         self.library.show_books()
@@ -63,8 +70,7 @@ def main():
     manager = LibraryManager(library)
 
     while True:
-        command = input(
-            "Enter command (add, remove, show, exit): ").strip().lower()
+        command = input("Enter command (add, remove, show, exit): ").strip().lower()
 
         if command == "add":
             title = input("Enter book title: ").strip()
@@ -79,7 +85,7 @@ def main():
         elif command == "exit":
             break
         else:
-            print("Invalid command. Please try again.")
+            logging.info("Invalid command. Please try again.")
 
 
 if __name__ == "__main__":

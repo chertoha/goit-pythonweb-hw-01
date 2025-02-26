@@ -1,4 +1,11 @@
 from abc import ABC, abstractmethod
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
 
 
 class Vehicle(ABC):
@@ -18,30 +25,30 @@ class VehicleFactory(ABC):
 
 
 class Car(Vehicle):
-    def __init__(self, make, model, region):
+    def __init__(self, make: str, model: str, region: str):
         self.make = make
         self.model = model
         self.region = region or ""
 
     def start_engine(self):
-        print(f"{self.make} {self.model} {self.region}: Двигун запущено")
+        logging.info(f"{self.make} {self.model} {self.region}: Двигун запущено")
 
 
 class Motorcycle(Vehicle):
-    def __init__(self, make, model, region):
+    def __init__(self, make: str, model: str, region: str):
         self.make = make
         self.model = model
         self.region = region or ""
 
     def start_engine(self):
-        print(f"{self.make} {self.model} {self.region}: Мотор заведено")
+        logging.info(f"{self.make} {self.model} {self.region}: Мотор запущено")
 
 
 class EUVehicleFactory(VehicleFactory):
     def create_car(self, make: str, model: str):
         return Car(make, model, "(EU Spec)")
 
-    def create_motorcycle(self, make, model):
+    def create_motorcycle(self, make: str, model: str):
         return Motorcycle(make, model, "(EU Spec)")
 
 
@@ -49,7 +56,7 @@ class USVehicleFactory(VehicleFactory):
     def create_car(self, make: str, model: str):
         return Car(make, model, "(US Spec)")
 
-    def create_motorcycle(self, make, model):
+    def create_motorcycle(self, make: str, model: str):
         return Motorcycle(make, model, "(US Spec)")
 
 
